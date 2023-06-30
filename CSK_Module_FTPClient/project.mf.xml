@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<manifest>
+    <application name="CSK_Module_FTPClient">
+        <crown name="CSK_Module_FTPClient">
+            <desc>This is an automatically generated CROWN (description not necessary).</desc>
+            <serves/>
+        </crown>
+        <crown name="CSK_FTPClient">
+            <include>remote</include>
+            <desc>Module to provide FTP client functionality +
+{empty} + 
+Typically the features of this module are used like this (check also main script of this module): +
+** 1) Setup the configuration** +
+E. g. via: +
+CSK_FTPClient.setUsername('tester') +
+CSK_FTPClient.setPassword('password') +
+CSK_FTPClient.setPassiveMode(status) +
+{empty} + 
+**2) Try to connect to the FTP server** +
+CSK_FTPClient.connectFtpClient() +
+{empty} + 
+**3) If connection was possible, send content to FTP server** +
+E.g. via function "sendData", "sendImage" +
+{empty} + 
+**4) Optioanlly use Async mode** +
+Per default this module sends the content via FTP and waits till the process was finished. +
+If it is supported by the device and firmware, it is also possible to use the asynchronous mode. +
+It will send the content then in its own thread, but other apps can further run in parallel. +
+CSK_FTPClient.setAsyncMode(status) +</desc>
+            <serves>
+                <event name="OnNewServerIP">
+                    <desc>Notify FTP server IP.</desc>
+                    <param desc="IP of FTP server." multiplicity="1" name="serverIP" type="string"/>
+                </event>
+                <event name="OnNewPort">
+                    <desc>Notify FTP connection port.</desc>
+                    <param desc="Port" multiplicity="1" name="port" type="int"/>
+                </event>
+                <event name="OnNewStatusConnected">
+                    <desc>Notify FTP connection status.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewUsername">
+                    <desc>Notify FTP username.</desc>
+                    <param desc="Username" multiplicity="1" name="username" type="string"/>
+                </event>
+                <event name="OnNewPassword">
+                    <desc>Notify password.</desc>
+                    <param desc="Password" multiplicity="1" name="password" type="string"/>
+                </event>
+                <event name="OnNewIPCheck">
+                    <desc>Notify if string has valid IP format (used for UI).</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewPassiveModeStatus">
+                    <desc>Notify passive mode status.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusLoadParameterOnReboot">
+                    <desc>Notify status if parameters should be loaded on app/device boot up.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnPersistentDataModuleAvailable">
+                    <desc>Notify status if features of CSK_PersistentData module are available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnDataLoadedOnReboot">
+                    <desc>Event to call if module tried to load parameters and should be ready.</desc>
+                </event>
+                <event name="OnUserLevelOperatorActive">
+                    <desc>Status of Operator userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelMaintenanceActive">
+                    <desc>Status of Maintenance userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelServiceActive">
+                    <desc>Status of Service userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnUserLevelAdminActive">
+                    <desc>Status of Admin userlevel. Used internally in combination with the CSK_UserManagement module if available.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewParameterName">
+                    <desc>Notify name of persistent data parameter.</desc>
+                    <param desc="Parameter name" multiplicity="1" name="name" type="string"/>
+                </event>
+                <event name="OnNewStatusAsyncMode">
+                    <desc>Notify if asynchronous FTP transfer is used.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <event name="OnNewStatusVerboseMode">
+                    <desc>Notify if FTP connection is running in verbose mode.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </event>
+                <function name="pageCalled">
+                    <desc>Function to register "OnResume" of the module UI (only as helper function).</desc>
+                    <return desc="Empty string (only needed to simplify binding)." multiplicity="1" name="empty" type="string"/>
+                </function>
+                <function name="connectFTPClient">
+                    <desc>Try to connect to FTP server by making use of the predefined configration.</desc>
+                    <return desc="Status of connection success." multiplicity="1" name="connected" type="bool"/>
+                </function>
+                <function name="disconnectFTPClient">
+                    <desc>Disconnect from FTP server</desc>
+                </function>
+                <function name="setFTPServerIP">
+                    <desc>Set FTP srever IP.</desc>
+                    <param desc="IP of FTP server." multiplicity="1" name="ip" type="string"/>
+                </function>
+                <function name="setFTPPort">
+                    <desc>Set FTP port.</desc>
+                    <param desc="Port" multiplicity="1" name="port" type="int"/>
+                </function>
+                <function name="setUsername">
+                    <desc>Set FTP connection user.</desc>
+                    <param desc="Username" multiplicity="1" name="user" type="string"/>
+                </function>
+                <function name="setPassword">
+                    <desc>Set FTP connection password.</desc>
+                    <param desc="Password" multiplicity="1" name="password" type="string"/>
+                </function>
+                <function name="setPassiveMode">
+                    <desc>Set if passive FTP connection should be used.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="getFTPServerIP">
+                    <desc>Get current setting of FTP server IP.</desc>
+                    <return desc="IP" multiplicity="1" name="ip" type="string"/>
+                </function>
+                <function name="getFTPPort">
+                    <desc>Get current setting of FTP port.</desc>
+                    <return desc="Port" multiplicity="1" name="port" type="int"/>
+                </function>
+                <function name="getUsername">
+                    <desc>Get currently used connection user.</desc>
+                    <return desc="User" multiplicity="1" name="user" type="string"/>
+                </function>
+                <function name="getPassword">
+                    <desc>Get currently used connection password.</desc>
+                    <return desc="Password" multiplicity="1" name="password" type="string"/>
+                </function>
+                <function name="getPassiveMode">
+                    <desc>Get current setting of FTP passive connection mode.</desc>
+                    <return desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="sendImage">
+                    <desc>Send image.</desc>
+                    <param alias="Image" desc="Image to send" multiplicity="1" name="img" type="object"/>
+                    <param desc="" multiplicity="?" name="filename" type="string"/>
+                </function>
+                <function name="getFTPStatus">
+                    <desc>Get current FTP connection status.</desc>
+                    <return desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setAsyncMode">
+                    <desc>Set if async FTP sending should be used. +
+If TRUE it will send the content in its own thread, but other apps can further run in parallel. +</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="getAsyncMode">
+                    <desc>Get current setting of async transfer mode.</desc>
+                    <return desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setParameterName">
+                    <desc>Function to set the name of the parameters if saved/loaded via the CSK_PersistentData module.</desc>
+                    <param desc="Name of the parameter" multiplicity="1" name="name" type="string"/>
+                </function>
+                <function name="sendParameters">
+                    <desc>Send parameters to CSK_PersistentData module if possible to save them.</desc>
+                </function>
+                <function name="loadParameters">
+                    <desc>Load parameters for this module from the CSK_PersistentData module if possible and use them.</desc>
+                </function>
+                <function name="sendData">
+                    <desc>Send data to connected FTP server.</desc>
+                    <param desc="Data to send." multiplicity="1" name="data" type="auto"/>
+                    <param desc="Filename to store send data on FTP server." multiplicity="1" name="filename" type="string"/>
+                </function>
+                <function name="setLoadOnReboot">
+                    <desc>Configure if this module should load its saved parameters at app/device boot up.</desc>
+                    <param desc="Set status" multiplicity="1" name="status" type="bool"/>
+                </function>
+                <function name="setImageName">
+                    <desc>Set a image name to send the image with a known name to FTP Server.</desc>
+                    <param desc="Image name" multiplicity="1" name="imageName" type="string"/>
+                </function>
+                <function name="getImageName">
+                    <desc>Get suffix of image names to store.</desc>
+                    <return desc="Suffix of image names." multiplicity="1" name="imageName" type="string"/>
+                </function>
+                <function name="setVerboseMode">
+                    <desc>Function to configure verbose mode of FTP connection.</desc>
+                    <param desc="Status" multiplicity="1" name="status" type="bool"/>
+                </function>
+            </serves>
+        </crown>
+        <meta key="author">SICK AG</meta>
+        <meta key="version">3.0.0</meta>
+        <meta key="priority">low</meta>
+        <meta key="copy-protected">false</meta>
+        <meta key="read-protected">false</meta>
+        <meta key="crown2-flow-engine">false</meta>
+        <meta key="LuaLoadAllEngineAPI">false</meta>
+        <entry default="CSK_Module_FTPClient.lua" path="scripts"/>
+    </application>
+</manifest>
