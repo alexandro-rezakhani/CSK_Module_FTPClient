@@ -17,6 +17,9 @@ Tested on
 2. SICK AppEngine - Firmware 1.3.2
 3. TDC-E          - Firmware L4M 2023.1
 
+Can be used with SICKAppSpaceCodingStarterKit/CSK_Module_PersistentData to save crendtials and settings.
+
+
 This module is part of the SICK AppSpace Coding Starter Kit developing approach.  
 It is programmed in an object oriented way. Some of these modules use kind of "classes" in Lua to make it possible to reuse code / classes in other projects.  
 In general it is not neccessary to code this way, but the architecture of this app can serve as a sample to be used especially for bigger projects and to make it easier to share code.  
