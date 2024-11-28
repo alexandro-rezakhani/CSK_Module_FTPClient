@@ -42,6 +42,11 @@ _G.logHandle:applyConfig()
 -- Loading script regarding ftpClient_Model
 -- Check this script regarding ftpClient_Model parameters and functions
 _G.ftpClient_Model = require('Communication/FTPClient/FTPClient_Model')
+require('Communication/FTPClient/FlowConfig/FTPClient_FlowConfig')
+
+if _G.availableAPIs.default == false or _G.availableAPIs.specific == false then
+  _G.logger:warning("CSK_FTPClient: Relevant CROWN(s) not available on device. Module is not supported...")
+end
 
 --**************************************************************************
 --**********************End Global Scope ***********************************

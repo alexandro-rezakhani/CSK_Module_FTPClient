@@ -1,200 +1,507 @@
-<layout-row id="RowLayout1">
-	<layout-column id="ColumnLayout6" style="align-items: stretch">
-		<stacked-view id="SV_Login">
-			<stacked-pane id="SP_LoginOK" value="true">
-				<layout-row id="RowLayout4">
-					<layout-column id="ColumnLayout1" style="align-items: stretch">
-						<davinci-text-field id="TF_ServerIP" type="text" label="Server IP">
-							<crown-edpws-binding property="value"
-								name="CSK_FTPClient/OnNewServerIP" update-on-resume>
-							</crown-edpws-binding>
-							<crown-edpws-binding property="error"
-								name="CSK_FTPClient/OnNewIPCheck" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setFTPServerIP"
-								path="param/args/ip" auto-commit>
-							</crown-binding>
-						</davinci-text-field>
-						<davinci-value-display id="VD_Port" value="Port">
-						</davinci-value-display>
-						<davinci-numeric-field id="NF_Port" type="outline" min="1" max="60000"
-							ticks="1" group-separator="," decimal-separator="."
-							format-pattern="0">
-							<crown-edpws-binding property="value" name="CSK_FTPClient/OnNewPort"
-								update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setFTPPort"
-								path="param/args/port" auto-commit>
-							</crown-binding>
-						</davinci-numeric-field>
-						<davinci-text-field id="TF_Username" type="text" label="Username">
-							<crown-edpws-binding property="value"
-								name="CSK_FTPClient/OnNewUsername" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setUsername"
-								path="param/args/user" auto-commit>
-							</crown-binding>
-						</davinci-text-field>
-						<davinci-text-field id="TF_Password" type="password" label="Password">
-							<crown-edpws-binding property="value"
-								name="CSK_FTPClient/OnNewPassword" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setPassword"
-								path="param/args/password" auto-commit>
-							</crown-binding>
-						</davinci-text-field>
-						<davinci-checkbox id="CB_PassiveMode"
-							title="Status will be used with next connection.">
-							<span>FTP Passive Mode</span>
-							<crown-edpws-binding property="checked"
-								name="CSK_FTPClient/OnNewPassiveModeStatus" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setPassiveMode"
-								path="param/args/status" auto-commit>
-							</crown-binding>
-						</davinci-checkbox>
-						<davinci-checkbox id="CB_AsyncMode">
-							<span>Asynchronous mode:</span>
-							<crown-binding event="change" name="CSK_FTPClient/setAsyncMode"
-								path="param/args/status" auto-commit>
-							</crown-binding>
-							<crown-edpws-binding property="checked"
-								name="CSK_FTPClient/OnNewStatusAsyncMode" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-checkbox>
-						<davinci-checkbox id="CB_VerboseMode"
-							title="Status will be used with next connection.">
-							<span>Verbose Mode</span>
-							<crown-edpws-binding property="checked"
-								name="CSK_FTPClient/OnNewStatusVerboseMode" update-on-resume>
-							</crown-edpws-binding>
-							<crown-binding event="change" name="CSK_FTPClient/setVerboseMode"
-								path="param/args/status" auto-commit>
-							</crown-binding>
-						</davinci-checkbox>
-						<davinci-status-indicator id="SI_ConnectionStatus">
-							<span>Current Status</span>
-							<crown-edpws-binding property="status"
-								name="CSK_FTPClient/OnNewStatusConnected" update-on-resume>
-							</crown-edpws-binding>
-						</davinci-status-indicator>
-						<davinci-button id="Button_Connect" type="primary"
-							icon-position="append">
-							<span>Connect</span>
-							<crown-binding event="submit" name="CSK_FTPClient/connectFTPClient"
-								auto-commit>
-							</crown-binding>
-						</davinci-button>
-						<davinci-button id="Button_Disconnect" type="primary"
-							icon-position="append">
-							<span>Disconnect</span>
-							<crown-binding event="submit" name="CSK_FTPClient/disconnectFTPClient"
-								auto-commit>
-							</crown-binding>
-						</davinci-button>
-						<layout-column id="Column_PersistentData"
-							class="myCustomFrame_CSK_Module_FTPClient"
-							style="align-items: stretch">
-							<layout-row id="RowLayout41"
-								style="justify-content: space-between; align-items: center">
-								<layout-column id="ColumnLayout51" style="align-items: stretch">
-									<davinci-value-display id="VD_ParameterName" value="Parameter name:"
-										title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-									</davinci-value-display>
-								</layout-column>
-								<layout-column id="ColumnLayout62" style="align-items: stretch">
-									<davinci-text-field id="TF_ParameterName" type="text"
-										title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
-										<crown-edpws-binding property="value"
-											name="CSK_FTPClient/OnNewParameterName" update-on-resume>
-										</crown-edpws-binding>
-										<crown-binding event="change" name="CSK_FTPClient/setParameterName"
-											path="param/args/name" auto-commit>
-										</crown-binding>
-										<crown-edpws-binding property="disabled"
-											name="CSK_FTPClient/OnPersistentDataModuleAvailable"
-											update-on-resume converter="function(value) {return !value;}">
-										</crown-edpws-binding>
-									</davinci-text-field>
-								</layout-column>
-							</layout-row>
-							<layout-row id="RowLayout2"
-								style="justify-content: space-between; align-items: center">
-								<davinci-value-display id="VD_LoadConfig"
-									value="Load config on app start:"
-									title="Load configured parameters from CSK_PersistentData on app start.">
-								</davinci-value-display>
-								<davinci-checkbox id="CB_LoadConfig"
-									title="Load configured parameters from CSK_PersistentData on app start.">
-									<span></span>
-									<crown-edpws-binding property="checked"
-										name="CSK_FTPClient/OnNewStatusLoadParameterOnReboot"
-										update-on-resume>
-									</crown-edpws-binding>
-									<crown-binding event="change" name="CSK_FTPClient/setLoadOnReboot"
-										path="param/args/status" auto-commit>
-									</crown-binding>
-									<crown-edpws-binding property="disabled"
-										name="CSK_FTPClient/OnPersistentDataModuleAvailable"
-										update-on-resume converter="function(value) {return !value;}">
-									</crown-edpws-binding>
-								</davinci-checkbox>
-							</layout-row>
-							<layout-row id="RowLayout3">
-								<layout-column id="ColumnLayout3" style="align-items: stretch">
-									<davinci-button id="B_LoadConfig" type="primary"
-										icon-position="append"
-										title="Load configured parameters from CSK_PersistentData module.">
-										<span>Load Config</span>
-										<crown-binding event="submit" name="CSK_FTPClient/loadParameters"
-											auto-commit>
-										</crown-binding>
-										<crown-edpws-binding property="disabled"
-											name="CSK_FTPClient/OnPersistentDataModuleAvailable"
-											update-on-resume converter="function(value) {return !value;}">
-										</crown-edpws-binding>
-									</davinci-button>
-								</layout-column>
-								<layout-column id="ColumnLayout4" style="align-items: stretch">
-									<davinci-button id="B_SaveConfig" type="primary"
-										icon-position="append"
-										title="Save current configured parameters of this module within CSK_PersistentData module.">
-										<span>Save Config</span>
-										<crown-binding event="submit" name="CSK_FTPClient/sendParameters"
-											auto-commit>
-										</crown-binding>
-										<crown-edpws-binding property="disabled"
-											name="CSK_FTPClient/OnPersistentDataModuleAvailable"
-											update-on-resume converter="function(value) {return !value;}">
-										</crown-edpws-binding>
-									</davinci-button>
-								</layout-column>
-							</layout-row>
-						</layout-column>
-					</layout-column>
-					<layout-column id="ColumnLayout2" style="flex-grow: 3">
-					</layout-column>
-				</layout-row>
-			</stacked-pane>
-			<stacked-pane id="SP_LoginNOK" value="false">
-				<layout-column id="ColumnLayout5" style="align-items: stretch">
-					<davinci-callout id="Callout1" type="info">
-						<span>
-							Please login with user level Maintenance to see this page.
-						</span>
-					</davinci-callout>
-				</layout-column>
-			</stacked-pane>
-			<crown-edpws-binding property="value"
-				name="CSK_FTPClient/OnUserLevelMaintenanceActive" update-on-resume
-				converter="function(value) {return value.toString();}">
-			</crown-edpws-binding>
-		</stacked-view>
-		<stacked-view id="SV_PageCalled">
-			<crown-binding property="value" name="CSK_FTPClient/pageCalled"
-				path="result/data/empty" auto-update="0" update-on-resume>
-			</crown-binding>
-		</stacked-view>
-	</layout-column>
-  
+<layout-row id="RowLayout1" class="myCustomBackground_CSK_Module_FTPClient">
+    <layout-column id="ColumnLayout6" class="myCustomFrameNoColor_CSK_Module_FTPClient" style="align-items: stretch">
+        <layout-row id="RowLayout12" class="myCustomSpacerVert20_CSK_Module_FTPClient"
+            style="flex-grow: 0; flex-shrink: 0">
+        </layout-row>
+        <layout-row id="RowLayout13">
+            <layout-column id="ColumnLayout15" style="align-items: stretch">
+                <layout-row id="RowLayout14" style="align-items: baseline">
+                    <davinci-value-display id="VD_Title" class="myCustomLabel_CSK_Module_FTPClient" value="FTP Client">
+                    </davinci-value-display>
+                    <davinci-value-display id="VD_Version">
+                        <crown-edpws-binding property="value" name="CSK_FTPClient/OnNewStatusModuleVersion"
+                            update-on-resume>
+                        </crown-edpws-binding>
+                    </davinci-value-display>
+                </layout-row>
+            </layout-column>
+        </layout-row>
+        <stacked-view id="SV_FeatureSupport">
+            <stacked-pane id="SP_Supported" value="true">
+                <stacked-view id="SV_Login">
+                    <stacked-pane id="SP_LoginOK" value="true">
+                        <layout-row id="RowLayout4">
+                            <layout-column id="ColumnLayout16" style="align-items: stretch">
+                                <layout-row id="RowLayout16" class="myCustomMarginFirstRow_CSK_Module_FTPClient">
+                                    <layout-column id="ColumnLayout2" style="align-items: stretch">
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout17" class="myCustomBorderLeft_CSK_Module_FTPClient"
+                                        style="align-items: stretch">
+                                        <layout-row id="RowLayout46" style="align-items: baseline">
+                                            <layout-column id="ColumnLayout81" style="align-items: stretch">
+                                                <layout-row id="RowLayout24" style="align-items: center">
+                                                    <layout-column id="ColumnLayout57" style="align-items: stretch">
+                                                        <davinci-value-display id="VD_PersistentData"
+                                                            value="Persistent Data">
+                                                        </davinci-value-display>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout73"
+                                                        style="align-items: stretch; flex-grow: 2">
+                                                        <davinci-text-field id="TF_ParameterName" type="text"
+                                                            title="Name of the parameters within the CSK_PersistentData module to be uses for this module.">
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_FTPClient/OnNewParameterName"
+                                                                update-on-resume>
+                                                            </crown-edpws-binding>
+                                                            <crown-binding event="change"
+                                                                name="CSK_FTPClient/setParameterName"
+                                                                path="param/args/name" auto-commit>
+                                                            </crown-binding>
+                                                            <crown-edpws-binding property="disabled"
+                                                                name="CSK_FTPClient/OnPersistentDataModuleAvailable"
+                                                                update-on-resume
+                                                                converter="function(value) {return !value;}">
+                                                            </crown-edpws-binding>
+                                                        </davinci-text-field>
+                                                    </layout-column>
+                                                    <layout-column id="Column_PersistentDatax"
+                                                        style="align-items: stretch">
+                                                        <layout-row id="RowLayout55">
+                                                            <layout-column id="ColumnLayout76"
+                                                                style="align-items: stretch">
+                                                                <layout-row id="RowLayout34"
+                                                                    class="myCustomMarginTop7PX_CSK_Module_FTPClient"
+                                                                    style="justify-content: center; align-items: center">
+                                                                    <davinci-button id="B_LoadConfig"
+                                                                        class="myCustomButton_CSK_Module_FTPClient"
+                                                                        type="outline" icon-position="append"
+                                                                        title="Load configured parameters from CSK_PersistentData module."
+                                                                        icon="action/history">
+                                                                        <span></span>
+                                                                        <crown-binding event="submit"
+                                                                            name="CSK_FTPClient/loadParameters"
+                                                                            auto-commit>
+                                                                        </crown-binding>
+                                                                        <crown-edpws-binding property="disabled"
+                                                                            name="CSK_FTPClient/OnPersistentDataModuleAvailable"
+                                                                            update-on-resume
+                                                                            converter="function(value) {return !value;}">
+                                                                        </crown-edpws-binding>
+                                                                    </davinci-button>
+                                                                    <davinci-button id="B_SaveConfig"
+                                                                        class="myCustomButton_CSK_Module_FTPClient"
+                                                                        type="outline" icon-position="append"
+                                                                        title="Save current configured parameters of this module within CSK_PersistentData module."
+                                                                        icon="content/save">
+                                                                        <span></span>
+                                                                        <crown-binding event="submit"
+                                                                            name="CSK_FTPClient/sendParameters"
+                                                                            auto-commit>
+                                                                        </crown-binding>
+                                                                        <crown-edpws-binding property="disabled"
+                                                                            name="CSK_FTPClient/OnPersistentDataModuleAvailable"
+                                                                            update-on-resume
+                                                                            converter="function(value) {return !value;}">
+                                                                        </crown-edpws-binding>
+                                                                    </davinci-button>
+                                                                </layout-row>
+                                                            </layout-column>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                </layout-row>
+                                                <layout-row id="RowLayout57" style="align-items: center">
+                                                    <layout-column id="ColumnLayout511" style="align-items: stretch">
+                                                        <davinci-collapse id="Collapse_PersistentData"
+                                                            class="myCustomPersistentDataMargin_CSK_Module_FTPClient"
+                                                            collapsed-title="..." expanded-title="...">
+                                                            <layout-row id="RowLayout45"
+                                                                class="myCustomPersistentDataMarginBack_CSK_Module_FTPClient"
+                                                                style="align-items: center">
+                                                                <layout-column id="ColumnLayout6x"
+                                                                    style="align-items: stretch">
+                                                                </layout-column>
+                                                                <layout-column id="ColumnLayout72"
+                                                                    style="align-items: stretch; flex-grow: 2">
+                                                                    <layout-row id="RowLayout21">
+                                                                        <layout-column id="ColumnLayout26"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout2x"
+                                                                                style="align-items: center">
+                                                                                <davinci-value-display
+                                                                                    id="VD_LoadConfigx"
+                                                                                    value="Load on reboot:"
+                                                                                    title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                                </davinci-value-display>
+                                                                                <davinci-checkbox id="CB_LoadConfig"
+                                                                                    title="Load configured parameters from CSK_PersistentData on app start.">
+                                                                                    <span></span>
+                                                                                    <crown-edpws-binding
+                                                                                        property="checked"
+                                                                                        name="CSK_FTPClient/OnNewStatusLoadParameterOnReboot"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_FTPClient/setLoadOnReboot"
+                                                                                        path="param/args/status"
+                                                                                        auto-commit>
+                                                                                    </crown-binding>
+                                                                                    <crown-edpws-binding
+                                                                                        property="disabled"
+                                                                                        name="CSK_FTPClient/OnPersistentDataModuleAvailable"
+                                                                                        update-on-resume
+                                                                                        converter="function(value) {return !value;}">
+                                                                                    </crown-edpws-binding>
+                                                                                </davinci-checkbox>
+                                                                            </layout-row>
+                                                                        </layout-column>
+                                                                        <layout-column id="ColumnLayout77"
+                                                                            style="align-items: stretch">
+                                                                            <layout-row id="RowLayout56"
+                                                                                style="align-items: center; justify-content: space-between">
+                                                                                <davinci-value-display
+                                                                                    id="VD_FLowConfigPrio"
+                                                                                    value="Flow config priority:"
+                                                                                    title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                                </davinci-value-display>
+                                                                                <davinci-checkbox id="CB_FlowConfigPrio"
+                                                                                    title="FlowConfig priority for FlowConfig relevant configurations.">
+                                                                                    <span></span>
+                                                                                    <crown-edpws-binding
+                                                                                        property="checked"
+                                                                                        name="CSK_FTPClient/OnNewStatusFlowConfigPriority"
+                                                                                        update-on-resume>
+                                                                                    </crown-edpws-binding>
+                                                                                    <crown-binding event="change"
+                                                                                        name="CSK_FTPClient/setFlowConfigPriority"
+                                                                                        path="param/args/status"
+                                                                                        auto-commit>
+                                                                                    </crown-binding>
+                                                                                </davinci-checkbox>
+                                                                            </layout-row>
+                                                                        </layout-column>
+                                                                    </layout-row>
+                                                                </layout-column>
+                                                                <layout-column id="ColumnLayout79"
+                                                                    style="align-items: stretch">
+                                                                </layout-column>
+                                                            </layout-row>
+                                                        </davinci-collapse>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                </layout-row>
+                                <layout-row id="RowLayout60" class="myCustomSpacerVert10_CSK_Module_FTPClient"
+                                    style="flex-grow: 0; flex-shrink: 0">
+                                </layout-row>
+                                <layout-row id="RowLayout47" class="myCustomBorderBottom_CSK_Module_FTPClient"
+                                    style="flex-grow: 0; flex-shrink: 0">
+                                </layout-row>
+                                <layout-row id="RowLayout61" class="myCustomSpacerVert20_CSK_Module_FTPClient"
+                                    style="flex-grow: 0; flex-shrink: 0">
+                                </layout-row>
+                                <layout-row id="RowLayout15">
+                                    <layout-column id="ColumnLayout12" class="myCustomFrame_CSK_Module_FTPClient"
+                                        style="align-items: stretch">
+                                        <davinci-value-display id="VD_Config"
+                                            class="myCustomFrameLabel_CSK_Module_FTPClient" value=""
+                                            label="Configuration" style="align-self: flex-start">
+                                        </davinci-value-display>
+                                        <layout-row id="RowLayout6">
+                                            <layout-column id="ColumnLayout3" style="align-items: stretch">
+                                                <davinci-value-display id="VD_ServerIP" value="Server IP">
+                                                </davinci-value-display>
+                                                <davinci-text-field id="TF_ServerIP" type="text">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_FTPClient/OnNewServerIP" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-edpws-binding property="error"
+                                                        name="CSK_FTPClient/OnNewIPCheck" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setFTPServerIP"
+                                                        path="param/args/ip" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout4" style="align-items: stretch">
+                                                <davinci-value-display id="VD_Port" value="Port">
+                                                </davinci-value-display>
+                                                <davinci-numeric-field id="NF_Port" type="outline" min="1" max="60000"
+                                                    ticks="1" group-separator="," decimal-separator="."
+                                                    format-pattern="0">
+                                                    <crown-edpws-binding property="value" name="CSK_FTPClient/OnNewPort"
+                                                        update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setFTPPort"
+                                                        path="param/args/port" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-numeric-field>
+                                            </layout-column>
+                                        </layout-row>
+                                        <layout-row id="RowLayout10" style="justify-content: space-between">
+                                            <layout-column id="ColumnLayout7" style="align-items: stretch">
+                                                <davinci-text-field id="TF_Username" type="text" label="Username">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_FTPClient/OnNewUsername" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setUsername"
+                                                        path="param/args/user" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout10" style="align-items: stretch">
+                                                <davinci-text-field id="TF_Password" type="password" label="Password">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_FTPClient/OnNewPassword" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setPassword"
+                                                        path="param/args/password" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                        </layout-row>
+                                        <layout-row id="RowLayout20" class="myCustomSpacerVert10_CSK_Module_FTPClient"
+                                            style="flex-grow: 0; flex-shrink: 0">
+                                        </layout-row>
+                                        <layout-row id="RowLayout18" class="myCustomBorderBottom_CSK_Module_FTPClient"
+                                            style="flex-grow: 0; flex-shrink: 0">
+                                        </layout-row>
+                                        <layout-row id="RowLayout3" style="justify-content: space-evenly">
+                                            <layout-column id="ColumnLayout20">
+                                                <davinci-checkbox id="CB_PassiveMode"
+                                                    title="Status will be used with next connection.">
+                                                    <span>FTP Passive Mode</span>
+                                                    <crown-edpws-binding property="checked"
+                                                        name="CSK_FTPClient/OnNewPassiveModeStatus" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setPassiveMode"
+                                                        path="param/args/status" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-checkbox>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout21">
+                                                <davinci-checkbox id="CB_AsyncMode">
+                                                    <span>Asynchronous mode:</span>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setAsyncMode"
+                                                        path="param/args/status" auto-commit>
+                                                    </crown-binding>
+                                                    <crown-edpws-binding property="checked"
+                                                        name="CSK_FTPClient/OnNewStatusAsyncMode" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                </davinci-checkbox>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout23">
+                                                <davinci-checkbox id="CB_VerboseMode"
+                                                    title="Status will be used with next connection.">
+                                                    <span>Verbose Mode</span>
+                                                    <crown-edpws-binding property="checked"
+                                                        name="CSK_FTPClient/OnNewStatusVerboseMode" update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change" name="CSK_FTPClient/setVerboseMode"
+                                                        path="param/args/status" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-checkbox>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout22"></layout-column>
+                                        </layout-row>
+                                        <layout-row id="RowLayout19" class="myCustomBorderBottom_CSK_Module_FTPClient"
+                                            style="flex-grow: 0; flex-shrink: 0">
+                                        </layout-row>
+                                        <layout-row id="RowLayout17" style="align-items: center">
+                                            <layout-column id="ColumnLayout24" style="align-items: stretch">
+                                                <layout-row id="RowLayout2" style="align-items: center">
+                                                    <layout-column id="ColumnLayout18" style="align-items: stretch">
+                                                        <stacked-view id="SV_ConnectionStatus">
+                                                            <stacked-pane id="SP_Connected" value="true">
+                                                                <davinci-button id="Button_Disconnect"
+                                                                    class="myCustomButton_CSK_Module_FTPClient"
+                                                                    type="accent" icon-position="append"
+                                                                    title="Disconnect" icon="av/stop">
+                                                                    <span>Disconnect</span>
+                                                                    <crown-binding event="submit"
+                                                                        name="CSK_FTPClient/disconnectFTPClient"
+                                                                        auto-commit>
+                                                                    </crown-binding>
+                                                                </davinci-button>
+                                                            </stacked-pane>
+                                                            <stacked-pane id="SP_Disconnected" value="false">
+                                                                <davinci-button id="Button_Connect"
+                                                                    class="myCustomButton_CSK_Module_FTPClient"
+                                                                    type="outline" icon-position="append"
+                                                                    title="Connect" icon="av/play_arrow">
+                                                                    <span>Connect</span>
+                                                                    <crown-binding event="submit"
+                                                                        name="CSK_FTPClient/connectFTPClient"
+                                                                        auto-commit>
+                                                                    </crown-binding>
+                                                                </davinci-button>
+                                                            </stacked-pane>
+                                                            <crown-edpws-binding property="value"
+                                                                name="CSK_FTPClient/OnNewStatusConnected"
+                                                                update-on-resume
+                                                                converter="function(value) {return value.toString();}">
+                                                            </crown-edpws-binding>
+                                                        </stacked-view>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout19" style="align-items: stretch">
+                                                        <davinci-status-indicator id="SI_ConnectionStatus">
+                                                            <span>Current Status</span>
+                                                            <crown-edpws-binding property="status"
+                                                                name="CSK_FTPClient/OnNewStatusConnected"
+                                                                update-on-resume>
+                                                            </crown-edpws-binding>
+                                                        </davinci-status-indicator>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout25" style="align-items: stretch">
+                                            </layout-column>
+                                        </layout-row>
+                                    </layout-column>
+                                    <layout-column id="ColumnLayout13" class="myCustomFrame_CSK_Module_FTPClient"
+                                        style="align-items: stretch">
+                                        <davinci-value-display id="VD_Incoming data"
+                                            class="myCustomFrameLabel_CSK_Module_FTPClient" value=""
+                                            label="Incoming data" style="align-self: flex-start">
+                                        </davinci-value-display>
+                                        <curie-callout id="DC_FlowConfigInfo" type="info"
+                                            value="FlowConfig priority active.">
+                                            <crown-edpws-binding property="hidden"
+                                                name="CSK_FTPClient/OnNewStatusFlowConfigPriority" update-on-resume
+                                                converter="function(value) {return !value;}">
+                                            </crown-edpws-binding>
+                                        </curie-callout>
+                                        <layout-row id="RowLayout5" style="align-items: center">
+                                            <layout-column id="ColumnLayout8"
+                                                style="align-items: stretch; flex-grow: 2">
+                                                <davinci-text-field id="TF_Eventname" type="text" label="Event name">
+                                                    <crown-edpws-binding property="value"
+                                                        name="CSK_FTPClient/OnNewStatusRegisteredEventName"
+                                                        update-on-resume>
+                                                    </crown-edpws-binding>
+                                                    <crown-binding event="change"
+                                                        name="CSK_FTPClient/setRegistereEventName"
+                                                        path="param/args/name" auto-commit>
+                                                    </crown-binding>
+                                                </davinci-text-field>
+                                            </layout-column>
+                                            <layout-column id="ColumnLayout11"
+                                                style="align-items: stretch; flex-grow: 3">
+                                                <layout-row id="RowLayout7" style="align-items: center">
+                                                    <layout-column id="ColumnLayout9"
+                                                        style="align-items: stretch; flex-grow: 3">
+                                                        <layout-row id="RowLayout9" style="align-items: center">
+                                                            <davinci-drop-down id="DD_DataType" label="Data type">
+                                                                <davinci-option id="Option_DATA" value="DATA">
+                                                                    <span>DATA</span>
+                                                                </davinci-option>
+                                                                <davinci-option id="Option_JPG" value="JPG">
+                                                                    <span>JPG</span>
+                                                                </davinci-option>
+                                                                <crown-edpws-binding property="value"
+                                                                    name="CSK_FTPClient/OnNewStatusDataType"
+                                                                    update-on-resume>
+                                                                </crown-edpws-binding>
+                                                                <crown-binding event="change"
+                                                                    name="CSK_FTPClient/setDataType"
+                                                                    path="param/args/dataType" auto-commit>
+                                                                </crown-binding>
+                                                            </davinci-drop-down>
+                                                            <davinci-checkbox id="CB_AutoFilename">
+                                                                <span>Auto name</span>
+                                                                <crown-edpws-binding property="checked"
+                                                                    name="CSK_FTPClient/OnNewStatusAutoFilename"
+                                                                    update-on-resume>
+                                                                </crown-edpws-binding>
+                                                                <crown-binding event="change"
+                                                                    name="CSK_FTPClient/setAutoFilename"
+                                                                    path="param/args/status" auto-commit>
+                                                                </crown-binding>
+                                                            </davinci-checkbox>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                    <layout-column id="ColumnLayout1"
+                                                        style="align-items: stretch; flex-grow: 2">
+                                                        <layout-row id="RowLayout8" style="justify-content: center">
+                                                            <davinci-button id="Button_ADD"
+                                                                class="myCustomButton_CSK_Module_FTPClient"
+                                                                type="outline" icon-position="append" title="Add data"
+                                                                icon="content/add">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_FTPClient/addRegistrationViaUI"
+                                                                    auto-commit>
+                                                                </crown-binding>
+                                                                <crown-edpws-binding property="disabled"
+                                                                    name="CSK_FTPClient/OnNewStatusFlowConfigPriority"
+                                                                    update-on-resume>
+                                                                </crown-edpws-binding>
+                                                            </davinci-button>
+                                                            <davinci-button id="Button_DELETE"
+                                                                class="myCustomButton_CSK_Module_FTPClient"
+                                                                type="outline" icon-position="append"
+                                                                title="Delete data" icon="action/delete">
+                                                                <span></span>
+                                                                <crown-binding event="submit"
+                                                                    name="CSK_FTPClient/deleteRegistrationViaUI"
+                                                                    auto-commit>
+                                                                </crown-binding>
+                                                                <crown-edpws-binding property="disabled"
+                                                                    name="CSK_FTPClient/OnNewStatusFlowConfigPriority"
+                                                                    update-on-resume>
+                                                                </crown-edpws-binding>
+                                                            </davinci-button>
+                                                        </layout-row>
+                                                    </layout-column>
+                                                </layout-row>
+                                            </layout-column>
+                                        </layout-row>
+                                        <curie-table id="DT_RegisteredEvents" selectable>
+                                            <curie-table-column id="DTC_EventName" header="Event name">
+                                            </curie-table-column>
+                                            <curie-table-column id="DTC_DataType" header="DataType">
+                                            </curie-table-column>
+                                            <curie-table-column id="DTC_AutoFilename" header="AutoFilename">
+                                            </curie-table-column>
+                                            <crown-edpws-binding property="data"
+                                                name="CSK_FTPClient/OnNewStatusRegistrationList" update-on-resume>
+                                            </crown-edpws-binding>
+                                            <crown-binding event="row-selected" name="CSK_FTPClient/setUITableSelection"
+                                                path="param/args/selection" auto-commit>
+                                            </crown-binding>
+                                        </curie-table>
+                                    </layout-column>
+                                </layout-row>
+                            </layout-column>
+                        </layout-row>
+                    </stacked-pane>
+                    <stacked-pane id="SP_LoginNOK" value="false">
+                        <layout-column id="ColumnLayout5" style="align-items: stretch">
+                            <davinci-callout id="Callout1" type="info">
+                                <span>
+									Please login with user level Maintenance to see this page.
+								</span>
+                            </davinci-callout>
+                        </layout-column>
+                    </stacked-pane>
+                    <crown-edpws-binding property="value" name="CSK_FTPClient/OnUserLevelMaintenanceActive"
+                        update-on-resume converter="function(value) {return value.toString();}">
+                    </crown-edpws-binding>
+                </stacked-view>
+            </stacked-pane>
+            <stacked-pane id="SP_NoSupport" value="false">
+                <layout-row id="RowLayout11">
+                    <layout-column id="ColumnLayout14">
+                        <davinci-callout id="Callout31" type="warning" style="width: 99%">
+                            <span>Module is not supported on this device...</span>
+                        </davinci-callout>
+                        <img id="UI_sample" src="assets/CSK_Module_FTPClient/UI_sample.png"
+							alt="UI sample">
+                    </layout-column>
+                </layout-row>
+            </stacked-pane>
+            <crown-edpws-binding property="value" name="CSK_FTPClient/OnNewStatusModuleIsActive" update-on-resume
+                converter="function(value) {return value.toString();}">
+            </crown-edpws-binding>
+        </stacked-view>
+        <stacked-view id="SV_PageCalled">
+            <crown-binding property="value" name="CSK_FTPClient/pageCalled" path="result/data/empty" auto-update="0"
+                update-on-resume>
+            </crown-binding>
+            <crown-edpws-binding property="value" name="CSK_FTPClient/OnNewStatusCSKStyle" update-on-resume
+                converter="changeStyle">
+            </crown-edpws-binding>
+        </stacked-view>
+    </layout-column>
 </layout-row>

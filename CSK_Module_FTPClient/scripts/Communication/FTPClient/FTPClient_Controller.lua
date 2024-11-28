@@ -20,6 +20,10 @@ local ftpClient_Model
 
 -- ************************ UI Events Start ********************************
 
+Script.serveEvent('CSK_FTPClient.OnNewStatusModuleVersion', 'FTPClient_OnNewStatusModuleVersion')
+Script.serveEvent('CSK_FTPClient.OnNewStatusCSKStyle', 'FTPClient_OnNewStatusCSKStyle')
+Script.serveEvent('CSK_FTPClient.OnNewStatusModuleIsActive', 'FTPClient_OnNewStatusModuleIsActive')
+
 Script.serveEvent("CSK_FTPClient.OnNewServerIP", "FTPClient_OnNewServerIP")
 Script.serveEvent("CSK_FTPClient.OnNewPort", "FTPClient_OnNewPort")
 Script.serveEvent("CSK_FTPClient.OnNewStatusConnected", "FTPClient_OnNewStatusConnected")
@@ -31,6 +35,13 @@ Script.serveEvent('CSK_FTPClient.OnNewStatusVerboseMode', 'FTPClient_OnNewStatus
 
 Script.serveEvent("CSK_FTPClient.OnNewIPCheck", "FTPClient_OnNewIPCheck")
 
+Script.serveEvent('CSK_FTPClient.OnNewStatusRegisteredEventName', 'FTPClient_OnNewStatusRegisteredEventName')
+Script.serveEvent('CSK_FTPClient.OnNewStatusDataType', 'FTPClient_OnNewStatusDataType')
+Script.serveEvent('CSK_FTPClient.OnNewStatusAutoFilename', 'FTPClient_OnNewStatusAutoFilename')
+
+Script.serveEvent('CSK_FTPClient.OnNewStatusRegistrationList', 'FTPClient_OnNewStatusRegistrationList')
+
+Script.serveEvent('CSK_FTPClient.OnNewStatusFlowConfigPriority', 'FTPClient_OnNewStatusFlowConfigPriority')
 Script.serveEvent("CSK_FTPClient.OnNewStatusLoadParameterOnReboot", "FTPClient_OnNewStatusLoadParameterOnReboot")
 Script.serveEvent("CSK_FTPClient.OnPersistentDataModuleAvailable", "FTPClient_OnPersistentDataModuleAvailable")
 Script.serveEvent("CSK_FTPClient.OnNewParameterName", "FTPClient_OnNewParameterName")
@@ -131,6 +142,10 @@ local function handleOnExpiredTmrFTPClient()
 
   updateUserLevel()
 
+  Script.notifyEvent("FTPClient_OnNewStatusModuleVersion", 'v' .. ftpClient_Model.version)
+  Script.notifyEvent("FTPClient_OnNewStatusCSKStyle", ftpClient_Model.styleForUI)
+  Script.notifyEvent("FTPClient_OnNewStatusModuleIsActive", _G.availableAPIs.default and _G.availableAPIs.specific)
+
   Script.notifyEvent('FTPClient_OnNewServerIP', ftpClient_Model.parameters.serverIP)
   Script.notifyEvent('FTPClient_OnNewPort', ftpClient_Model.parameters.port)
   Script.notifyEvent('FTPClient_OnNewUsername', ftpClient_Model.parameters.user)
@@ -138,10 +153,20 @@ local function handleOnExpiredTmrFTPClient()
   Script.notifyEvent('FTPClient_OnNewPassiveModeStatus', ftpClient_Model.parameters.passiveMode)
   Script.notifyEvent('FTPClient_OnNewStatusAsyncMode', ftpClient_Model.parameters.asyncMode)
   Script.notifyEvent('FTPClient_OnNewStatusVerboseMode', ftpClient_Model.parameters.verboseMode)
-  Script.notifyEvent('FTPClient_OnNewStatusConnected', ftpClient_Model.ftpClient:isConnected())
+  if _G.availableAPIs.specific == true then
+    Script.notifyEvent('FTPClient_OnNewStatusConnected', ftpClient_Model.ftpClient:isConnected())
+  end
+
+  Script.notifyEvent("FTPClient_OnNewStatusRegisteredEventName", ftpClient_Model.registeredEventName)
+  Script.notifyEvent("FTPClient_OnNewStatusDataType", ftpClient_Model.dataType)
+  Script.notifyEvent("FTPClient_OnNewStatusAutoFilename", ftpClient_Model.autoFilename)
+  Script.notifyEvent("FTPClient_OnNewStatusRegistrationList", ftpClient_Model.helperFuncs.createSpecificJsonList(ftpClient_Model.parameters.registeredEvents, ftpClient_Model.eventSelection))
+
+  Script.notifyEvent("FTPClient_OnNewStatusFlowConfigPriority", ftpClient_Model.parameters.flowConfigPriority)
   Script.notifyEvent('FTPClient_OnNewStatusLoadParameterOnReboot', ftpClient_Model.parameterLoadOnReboot)
   Script.notifyEvent('FTPClient_OnPersistentDataModuleAvailable', ftpClient_Model.persistentModuleAvailable)
   Script.notifyEvent("FTPClient_OnNewParameterName", ftpClient_Model.parametersName)
+
 end
 Timer.register(tmrFTPClient, "OnExpired", handleOnExpiredTmrFTPClient)
 
@@ -187,7 +212,7 @@ Script.serveFunction("CSK_FTPClient.getFTPStatus", getFTPStatus)
 local function setFTPServerIP(ip)
   if checkIP(ip) == true then
     ftpClient_Model.parameters.serverIP = ip
-    _G.logger:info(nameOfModule .. ': Set FTP server IP to: ' .. ip)
+    _G.logger:fine(nameOfModule .. ': Set FTP server IP to: ' .. ip)
     Script.notifyEvent('FTPClient_OnNewIPCheck', false)
   else
     _G.logger:warning(nameOfModule .. ': Not possible to set FTP server IP to: ' .. ip)
@@ -202,7 +227,7 @@ end
 Script.serveFunction("CSK_FTPClient.getFTPServerIP", getFTPServerIP)
 
 local function setFTPPort(port)
-  _G.logger:info(nameOfModule .. ': Set FTP port to: ' .. tostring(port))
+  _G.logger:fine(nameOfModule .. ': Set FTP port to: ' .. tostring(port))
   ftpClient_Model.parameters.port = port
 end
 Script.serveFunction("CSK_FTPClient.setFTPPort", setFTPPort)
@@ -213,7 +238,7 @@ end
 Script.serveFunction("CSK_FTPClient.getFTPPort", getFTPPort)
 
 local function setUsername(user)
-  _G.logger:info(nameOfModule .. ': Set username to: ' .. tostring(user))
+  _G.logger:fine(nameOfModule .. ': Set username to: ' .. tostring(user))
   ftpClient_Model.parameters.user = user
 end
 Script.serveFunction("CSK_FTPClient.setUsername", setUsername)
@@ -224,7 +249,7 @@ end
 Script.serveFunction("CSK_FTPClient.getUsername", getUsername)
 
 local function setPassword(password)
-  _G.logger:info(nameOfModule .. ': Set password.')
+  _G.logger:fine(nameOfModule .. ': Set password.')
   ftpClient_Model.parameters.password = password
 end
 Script.serveFunction("CSK_FTPClient.setPassword", setPassword)
@@ -235,7 +260,7 @@ end
 Script.serveFunction("CSK_FTPClient.getPassword", getPassword)
 
 local function setPassiveMode(status)
-  _G.logger:info(nameOfModule .. ': Set passive mode to: ' .. tostring(status))
+  _G.logger:fine(nameOfModule .. ': Set passive mode to: ' .. tostring(status))
   ftpClient_Model.parameters.passiveMode = status
 end
 Script.serveFunction("CSK_FTPClient.setPassiveMode", setPassiveMode)
@@ -246,7 +271,7 @@ end
 Script.serveFunction("CSK_FTPClient.getPassiveMode", getPassiveMode)
 
 local function setAsyncMode(status)
-  _G.logger:info(nameOfModule .. ': Set async mode to: ' .. tostring(status))
+  _G.logger:fine(nameOfModule .. ': Set async mode to: ' .. tostring(status))
   ftpClient_Model.parameters.asyncMode = status
 end
 Script.serveFunction("CSK_FTPClient.setAsyncMode", setAsyncMode)
@@ -257,7 +282,7 @@ end
 Script.serveFunction("CSK_FTPClient.getAsyncMode", getAsyncMode)
 
 local function setImageName (imageName)
-  _G.logger:info(nameOfModule .. ': Set image name to: ' .. tostring(imageName))
+  _G.logger:fine(nameOfModule .. ': Set image name to: ' .. tostring(imageName))
   ftpClient_Model.parameters.imageName = imageName
 end
 Script.serveFunction("CSK_FTPClient.setImageName", setImageName)
@@ -268,10 +293,121 @@ end
 Script.serveFunction("CSK_FTPClient.getImageName", getImageName)
 
 local function setVerboseMode(status)
-  _G.logger:info(nameOfModule .. ': Set verbose mode to: ' .. tostring(status))
+  _G.logger:fine(nameOfModule .. ': Set verbose mode to: ' .. tostring(status))
   ftpClient_Model.parameters.verboseMode = status
 end
 Script.serveFunction('CSK_FTPClient.setVerboseMode', setVerboseMode)
+
+local function setRegistereEventName(name)
+  _G.logger:fine(nameOfModule .. ': Set eventname to: ' .. tostring(name))
+  ftpClient_Model.registeredEventName = name
+end
+Script.serveFunction('CSK_FTPClient.setRegistereEventName', setRegistereEventName)
+
+local function setDataType(dataType)
+  _G.logger:fine(nameOfModule .. ': Set dataType to: ' .. tostring(dataType))
+  ftpClient_Model.dataType = dataType
+end
+Script.serveFunction('CSK_FTPClient.setDataType', setDataType)
+
+local function setAutoFilename(status)
+  _G.logger:fine(nameOfModule .. ': Set autoFilename status to: ' .. tostring(status))
+  ftpClient_Model.autoFilename = status
+end
+Script.serveFunction('CSK_FTPClient.setAutoFilename', setAutoFilename)
+
+local function addRegistration(eventName, dataType, autoFilename)
+
+  if not ftpClient_Model.parameters.registeredEvents[eventName] then
+    ftpClient_Model.parameters.registeredEvents[eventName] = {}
+    ftpClient_Model.parameters.registeredEvents[eventName].eventName = eventName
+    ftpClient_Model.parameters.registeredEvents[eventName].dataType = dataType
+    ftpClient_Model.parameters.registeredEvents[eventName].autoFilename = autoFilename
+
+    ftpClient_Model.registerEvent(eventName, dataType, autoFilename)
+  else
+    _G.logger:fine(nameOfModule .. ": Event already exists")
+  end
+  handleOnExpiredTmrFTPClient()
+end
+Script.serveFunction('CSK_FTPClient.addRegistration', addRegistration)
+
+local function addRegistrationViaUI()
+  addRegistration(ftpClient_Model.registeredEventName, ftpClient_Model.dataType, ftpClient_Model.autoFilename)
+end
+Script.serveFunction('CSK_FTPClient.addRegistrationViaUI', addRegistrationViaUI)
+
+local function deleteRegistration(eventName)
+  if ftpClient_Model.parameters.registeredEvents[eventName] then
+    ftpClient_Model.deregisterEvent(eventName, ftpClient_Model.parameters.registeredEvents[eventName].dataType, ftpClient_Model.parameters.registeredEvents[eventName].autoFilename)
+    ftpClient_Model.parameters.registeredEvents[eventName] = nil
+  else
+    _G.logger:fine(nameOfModule .. ": Registration does not exists")
+  end
+  handleOnExpiredTmrFTPClient()
+end
+Script.serveFunction('CSK_FTPClient.deleteRegistration', deleteRegistration)
+
+local function deleteRegistrationViaUI()
+  deleteRegistration(ftpClient_Model.eventSelection)
+end
+Script.serveFunction('CSK_FTPClient.deleteRegistrationViaUI', deleteRegistrationViaUI)
+
+--- Function to check if selection in UIs DynamicTable can find related pattern
+---@param selection string Full text of selection
+---@param pattern string Pattern to search for
+local function checkSelection(selection, pattern)
+  if selection ~= "" then
+    local _, pos = string.find(selection, pattern)
+    if pos == nil then
+    else
+      pos = tonumber(pos)
+      if pattern ~= '"selected":true' then
+        local endPos = string.find(selection, '"', pos+1)
+        local tempSelection = string.sub(selection, pos+1, endPos-1)
+        if tempSelection ~= nil and tempSelection ~= '-' then
+          return tempSelection
+        end
+      else
+        return ''
+      end
+    end
+  end
+  return nil
+end
+
+local function setUITableSelection(selection)
+  local tempSelection = checkSelection(selection, '"DTC_EventName":"')
+  if tempSelection then
+    local isSelected = checkSelection(selection, '"selected":true')
+    if isSelected then
+      _G.logger:fine(nameOfModule .. ": Selected event " .. tostring(tempSelection))
+      ftpClient_Model.eventSelection = tempSelection
+    else
+      ftpClient_Model.eventSelection = ''
+    end
+    handleOnExpiredTmrFTPClient()
+  end
+
+end
+Script.serveFunction('CSK_FTPClient.setUITableSelection', setUITableSelection)
+
+local function getStatusModuleActive()
+  return _G.availableAPIs.default and _G.availableAPIs.specific
+end
+Script.serveFunction('CSK_FTPClient.getStatusModuleActive', getStatusModuleActive)
+
+local function clearFlowConfigRelevantConfiguration()
+  for key, value in pairs(ftpClient_Model.parameters.registeredEvents) do
+    deleteRegistration(key)
+  end
+end
+Script.serveFunction('CSK_FTPClient.clearFlowConfigRelevantConfiguration', clearFlowConfigRelevantConfiguration)
+
+local function getParameters()
+  return ftpClient_Model.helperFuncs.json.encode(ftpClient_Model.parameters)
+end
+Script.serveFunction('CSK_FTPClient.getParameters', getParameters)
 
 -- *****************************************************************
 -- Following functions can be adapted for CSK_PersistentData module usage
@@ -279,16 +415,18 @@ Script.serveFunction('CSK_FTPClient.setVerboseMode', setVerboseMode)
 
 local function setParameterName(name)
   ftpClient_Model.parametersName = name
-  _G.logger:info(nameOfModule .. ': Set parameter name to: ' .. tostring(name))
+  _G.logger:fine(nameOfModule .. ': Set parameter name to: ' .. tostring(name))
 end
 Script.serveFunction("CSK_FTPClient.setParameterName", setParameterName)
 
-local function sendParameters()
+local function sendParameters(noDataSave)
   if ftpClient_Model.persistentModuleAvailable then
     CSK_PersistentData.addParameter(ftpClient_Model.helperFuncs.convertTable2Container(ftpClient_Model.parameters), ftpClient_Model.parametersName)
     CSK_PersistentData.setModuleParameterName(nameOfModule, ftpClient_Model.parametersName, ftpClient_Model.parameterLoadOnReboot)
-    _G.logger:info(nameOfModule .. ": Send FTPClient parameters with name '" .. ftpClient_Model.parametersName .. "' to CSK_PersistentData module.")
-    CSK_PersistentData.saveData()
+    _G.logger:fine(nameOfModule .. ": Send FTPClient parameters with name '" .. ftpClient_Model.parametersName .. "' to CSK_PersistentData module.")
+    if not noDataSave then
+      CSK_PersistentData.saveData()
+    end
   else
     _G.logger:warning(nameOfModule .. ": CSK_PersistentData module not available.")
   end
@@ -301,50 +439,78 @@ local function loadParameters()
     if data then
       _G.logger:info(nameOfModule .. ": Loaded parameters from CSK_PersistentData module.")
       ftpClient_Model.parameters = ftpClient_Model.helperFuncs.convertContainer2Table(data)
+      ftpClient_Model.deregisterAllEvents()
+      ftpClient_Model.registerAllEvents()
       if ftpClient_Model.parameters.isConnected then
         CSK_FTPClient.connectFTPClient()
       end
       CSK_FTPClient.pageCalled()
+      return true
     else
       _G.logger:warning(nameOfModule .. ": Loading parameters from CSK_PersistentData module did not work.")
+      return false
     end
   else
     _G.logger:warning(nameOfModule .. ": CSK_PersistentData module not available.")
+    return false
   end
 end
 Script.serveFunction("CSK_FTPClient.loadParameters", loadParameters)
 
 local function setLoadOnReboot(status)
   ftpClient_Model.parameterLoadOnReboot = status
-  _G.logger:info(nameOfModule .. ": Set new status to load setting on reboot: " .. tostring(status))
+  _G.logger:fine(nameOfModule .. ": Set new status to load setting on reboot: " .. tostring(status))
+  Script.notifyEvent("FTPClient_OnNewStatusLoadParameterOnReboot", status)
 end
 Script.serveFunction("CSK_FTPClient.setLoadOnReboot", setLoadOnReboot)
+
+local function setFlowConfigPriority(status)
+  ftpClient_Model.parameters.flowConfigPriority = status
+  _G.logger:fine(nameOfModule .. ": Set new status of FlowConfig priority: " .. tostring(status))
+  Script.notifyEvent("FTPClient_OnNewStatusFlowConfigPriority", ftpClient_Model.parameters.flowConfigPriority)
+end
+Script.serveFunction('CSK_FTPClient.setFlowConfigPriority', setFlowConfigPriority)
 
 --- Function to react on initial load of persistent parameters
 local function handleOnInitialDataLoaded()
 
-  _G.logger:info(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    _G.logger:fine(nameOfModule .. ': Try to initially load parameter from CSK_PersistentData module.')
 
-  if string.sub(CSK_PersistentData.getVersion(), 1, 1) == '1' then
+    if string.sub(CSK_PersistentData.getVersion(), 1, 1) == '1' then
 
-    _G.logger:warning(nameOfModule .. ': CSK_PersistentData module is too old and will not work. Please update CSK_PersistentData module.')
-    ftpClient_Model.persistentModuleAvailable = false
-  else
+      _G.logger:warning(nameOfModule .. ': CSK_PersistentData module is too old and will not work. Please update CSK_PersistentData module.')
+      ftpClient_Model.persistentModuleAvailable = false
+    else
 
-    local parameterName, loadOnReboot = CSK_PersistentData.getModuleParameterName(nameOfModule)
+      local parameterName, loadOnReboot = CSK_PersistentData.getModuleParameterName(nameOfModule)
 
-    if parameterName then
-      ftpClient_Model.parametersName = parameterName
-      ftpClient_Model.parameterLoadOnReboot = loadOnReboot
+      if parameterName then
+        ftpClient_Model.parametersName = parameterName
+        ftpClient_Model.parameterLoadOnReboot = loadOnReboot
+      end
+
+      if ftpClient_Model.parameterLoadOnReboot then
+        loadParameters()
+      end
+      Script.notifyEvent('FTPClient_OnDataLoadedOnReboot')
     end
-
-    if ftpClient_Model.parameterLoadOnReboot then
-      loadParameters()
-    end
-    Script.notifyEvent('FTPClient_OnDataLoadedOnReboot')
   end
 end
 Script.register("CSK_PersistentData.OnInitialDataLoaded", handleOnInitialDataLoaded)
+
+local function resetModule()
+  if _G.availableAPIs.default and _G.availableAPIs.specific then
+    clearFlowConfigRelevantConfiguration()
+    local connected = ftpClient_Model.ftpClient:isConnected()
+    if connected then
+      disconnectFTPClient()
+    end
+    pageCalled()
+  end
+end
+Script.serveFunction('CSK_FTPClient.resetModule', resetModule)
+Script.register("CSK_PersistentData.OnResetAllModules", resetModule)
 
 -- *************************************************
 -- END of functions for CSK_PersistentData module usage

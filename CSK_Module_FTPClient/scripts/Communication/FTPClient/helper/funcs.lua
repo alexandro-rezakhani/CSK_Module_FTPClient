@@ -125,6 +125,33 @@ local function createStringListBySimpleTable(content)
 end
 funcs.createStringListBySimpleTable = createStringListBySimpleTable
 
+--- Function to create a JSON string out of a table content
+---@param content string[] Lua Table with entries for list
+---@param selectedParam string Currently selected parameter
+---@return string jsonstring List created of table entries
+local function createSpecificJsonList(content, selectedParam)
+  local commandList = {}
+  if content == nil then
+    commandList = {{DTC_EventName = '-', DTC_DataType = '-', DTC_AutoFilename = '-'},}
+  else
+    local size = 0
+    for key, value in pairs(content) do
+      local isSelected = false
+      if key == selectedParam then
+        isSelected = true
+      end
+      table.insert(commandList, {DTC_EventName = key, DTC_DataType = content[key].dataType, DTC_AutoFilename = content[key].autoFilename, selected = isSelected})
+      size = size + 1
+    end
+    if size == 0 then
+      commandList = {{DTC_EventName = '-', DTC_DataType = '-', DTC_AutoFilename = '-'},}
+    end
+  end
+  local jsonstring = funcs.json.encode(commandList)
+  return jsonstring
+end
+funcs.createSpecificJsonList = createSpecificJsonList
+
 return funcs
 
 --**************************************************************************
