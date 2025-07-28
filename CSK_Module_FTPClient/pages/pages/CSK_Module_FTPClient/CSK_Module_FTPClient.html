@@ -6,12 +6,12 @@
         <layout-row id="RowLayout13">
             <layout-column id="ColumnLayout15" style="align-items: stretch">
                 <layout-row id="RowLayout14" style="align-items: baseline">
-                    <davinci-value-display id="VD_Title" class="myCustomLabel_CSK_Module_FTPClient" value="FTP Client">
-                    </davinci-value-display>
+                    <h1 id="Heading_Title" class="myCustomLabel_CSK_Module_FTPClient">
+                        FTP Client
+                    </h1>
                     <davinci-value-display id="VD_Version">
-                        <crown-edpws-binding property="value" name="CSK_FTPClient/OnNewStatusModuleVersion"
-                            update-on-resume>
-                        </crown-edpws-binding>
+                        <crown-on property="value" crown-event="CSK_FTPClient/OnNewStatusModuleVersion">
+                        </crown-on>
                     </davinci-value-display>
                 </layout-row>
             </layout-column>
@@ -64,9 +64,10 @@
                                                                     style="justify-content: center; align-items: center">
                                                                     <davinci-button id="B_LoadConfig"
                                                                         class="myCustomButton_CSK_Module_FTPClient"
-                                                                        type="outline" icon-position="append"
-                                                                        title="Load configured parameters from CSK_PersistentData module."
-                                                                        icon="action/history">
+                                                                        type="outline"
+                                                                        title="Load configured parameters from CSK_PersistentData module.">
+                                                                        <davinci-icon icon="action/history">
+                                                                        </davinci-icon>
                                                                         <span></span>
                                                                         <crown-binding event="submit"
                                                                             name="CSK_FTPClient/loadParameters"
@@ -80,9 +81,10 @@
                                                                     </davinci-button>
                                                                     <davinci-button id="B_SaveConfig"
                                                                         class="myCustomButton_CSK_Module_FTPClient"
-                                                                        type="outline" icon-position="append"
-                                                                        title="Save current configured parameters of this module within CSK_PersistentData module."
-                                                                        icon="content/save">
+                                                                        type="outline"
+                                                                        title="Save current configured parameters of this module within CSK_PersistentData module.">
+                                                                        <davinci-icon icon="content/save">
+                                                                        </davinci-icon>
                                                                         <span></span>
                                                                         <crown-binding event="submit"
                                                                             name="CSK_FTPClient/sendParameters"
@@ -306,8 +308,8 @@
                                                             <stacked-pane id="SP_Connected" value="true">
                                                                 <davinci-button id="Button_Disconnect"
                                                                     class="myCustomButton_CSK_Module_FTPClient"
-                                                                    type="accent" icon-position="append"
-                                                                    title="Disconnect" icon="av/stop">
+                                                                    type="accent" title="Disconnect">
+                                                                    <davinci-icon icon="av/stop"></davinci-icon>
                                                                     <span>Disconnect</span>
                                                                     <crown-binding event="submit"
                                                                         name="CSK_FTPClient/disconnectFTPClient"
@@ -318,8 +320,8 @@
                                                             <stacked-pane id="SP_Disconnected" value="false">
                                                                 <davinci-button id="Button_Connect"
                                                                     class="myCustomButton_CSK_Module_FTPClient"
-                                                                    type="outline" icon-position="append"
-                                                                    title="Connect" icon="av/play_arrow">
+                                                                    type="outline" title="Connect">
+                                                                    <davinci-icon icon="av/play_arrow"></davinci-icon>
                                                                     <span>Connect</span>
                                                                     <crown-binding event="submit"
                                                                         name="CSK_FTPClient/connectFTPClient"
@@ -416,8 +418,8 @@
                                                         <layout-row id="RowLayout8" style="justify-content: center">
                                                             <davinci-button id="Button_ADD"
                                                                 class="myCustomButton_CSK_Module_FTPClient"
-                                                                type="outline" icon-position="append" title="Add data"
-                                                                icon="content/add">
+                                                                type="outline" title="Add data">
+                                                                <davinci-icon icon="content/add"></davinci-icon>
                                                                 <span></span>
                                                                 <crown-binding event="submit"
                                                                     name="CSK_FTPClient/addRegistrationViaUI"
@@ -430,8 +432,8 @@
                                                             </davinci-button>
                                                             <davinci-button id="Button_DELETE"
                                                                 class="myCustomButton_CSK_Module_FTPClient"
-                                                                type="outline" icon-position="append"
-                                                                title="Delete data" icon="action/delete">
+                                                                type="outline" title="Delete data">
+                                                                <davinci-icon icon="action/delete"></davinci-icon>
                                                                 <span></span>
                                                                 <crown-binding event="submit"
                                                                     name="CSK_FTPClient/deleteRegistrationViaUI"

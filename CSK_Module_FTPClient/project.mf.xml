@@ -322,7 +322,7 @@ If TRUE it will send the content in its own thread, but other apps can further r
             </crown>
         </crown>
         <meta key="author">SICK AG</meta>
-        <meta key="version">4.0.0</meta>
+        <meta key="version">4.1.0</meta>
         <meta key="priority">low</meta>
         <meta key="copy-protected">false</meta>
         <meta key="read-protected">false</meta>

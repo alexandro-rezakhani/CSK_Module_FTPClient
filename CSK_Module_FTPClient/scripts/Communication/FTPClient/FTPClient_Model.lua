@@ -51,31 +51,7 @@ ftpClient_Model.version = Engine.getCurrentAppVersion() -- Version of module
 
 -- Parameters to be saved permanently if wanted
 ftpClient_Model.parameters = {}
-ftpClient_Model.parameters.flowConfigPriority = CSK_FlowConfig ~= nil or false -- Status if FlowConfig should have priority for FlowConfig relevant configurations
-ftpClient_Model.parameters.serverIP = '192.168.0.201' -- IP of FTP server
-ftpClient_Model.parameters.imageName = 'unknown' -- Use to give a name for the image to send
-ftpClient_Model.parameters.isConnected = false -- Status if FTP connection should be established
-ftpClient_Model.parameters.mode = 'FTP' -- FTP / SFTP -- Mode of FTP connection
-if ftpClient_Model.parameters.mode == 'SFTP' then
-  if _G.availableAPIs.specific == true then
-    ftpClient_Model.ftpClient:setSecurityProtocol('SFTP')
-  end
-  ftpClient_Model.parameters.port = 22 -- FTP = 21 / SFTP = 22 -- FTP port to use
-else
-  ftpClient_Model.parameters.port = 21 -- FTP = 21 / SFTP = 22
-end
-
-ftpClient_Model.parameters.user = 'unknown' -- FTP user
-ftpClient_Model.parameters.password = 'pass'-- FTP password for user
-ftpClient_Model.parameters.passiveMode = true -- FTP passive mode
-ftpClient_Model.parameters.asyncMode = false -- asyncMode
-ftpClient_Model.parameters.verboseMode = false -- verbose Mode of FTP connection
-
-ftpClient_Model.parameters.registeredEvents = {} -- Events to listen for incoming data to store on FTP server
--- Sample of data content of entries within the "registeredEvents"
--- ftpClient_Model.parameters.registeredEvents[id].eventName -- Name of event
--- ftpClient_Model.parameters.registeredEvents[id].dataType -- Type of data to save
--- ftpClient_Model.parameters.registeredEvents[id].autoFilename -- Status if filename should be created by timestamp
+ftpClient_Model.parameters = ftpClient_Model.helperFuncs.defaultParameters.getParameters() -- Load default parameters
 
 --**************************************************************************
 --********************** End Global Scope **********************************

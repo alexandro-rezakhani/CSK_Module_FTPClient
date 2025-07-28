@@ -438,8 +438,9 @@ local function loadParameters()
     local data = CSK_PersistentData.getParameter(ftpClient_Model.parametersName)
     if data then
       _G.logger:info(nameOfModule .. ": Loaded parameters from CSK_PersistentData module.")
-      ftpClient_Model.parameters = ftpClient_Model.helperFuncs.convertContainer2Table(data)
       ftpClient_Model.deregisterAllEvents()
+      ftpClient_Model.parameters = ftpClient_Model.helperFuncs.convertContainer2Table(data)
+      ftpClient_Model.parameters = ftpClient_Model.helperFuncs.checkParameters(ftpClient_Model.parameters, ftpClient_Model.helperFuncs.defaultParameters.getParameters())
       ftpClient_Model.registerAllEvents()
       if ftpClient_Model.parameters.isConnected then
         CSK_FTPClient.connectFTPClient()

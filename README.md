@@ -15,6 +15,7 @@ Tested on
 
 |Device|Firmware version|Module version|
 |--|--|--|
+|SICK AppEngine|V1.7.0|V4.1.0|
 |SICK AppEngine|V1.7.0|V4.0.0|
 |SICK AppEngine|V1.3.2|<V4.0.0|
 |SIM1012|V2.4.2|V4.0.0|
