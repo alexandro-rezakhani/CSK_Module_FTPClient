@@ -15,6 +15,7 @@ Tested on
 
 |Device|Firmware version|Module version|
 |--|--|--|
+|SICK AppEngine|V1.8.0|V4.1.1|
 |SICK AppEngine|V1.7.0|V4.1.0|
 |SICK AppEngine|V1.7.0|V4.0.0|
 |SICK AppEngine|V1.3.2|<V4.0.0|
@@ -22,6 +23,8 @@ Tested on
 |SIM1012|V2.2.0|<V4.0.0|
 |TDC-E|V2.0.0|V4.0.0|
 |TDC-E|L4M 2023.1|<V4.0.0|
+
+Can be used with SICKAppSpaceCodingStarterKit/CSK_Module_PersistentData to save crendtials and settings.
 
 This module is part of the SICK AppSpace Coding Starter Kit developing approach.  
 It is programmed in an object oriented way. Some of these modules use kind of "classes" in Lua to make it possible to reuse code / classes in other projects.  
