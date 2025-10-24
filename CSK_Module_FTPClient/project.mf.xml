@@ -190,6 +190,7 @@ It is possible to register to events of other apps to put the received data to t
                     <desc>Send image.</desc>
                     <param alias="Image" desc="Image to send" multiplicity="1" name="img" type="object"/>
                     <param desc="" multiplicity="?" name="filename" type="string"/>
+                    <return desc="Success to load parameters." multiplicity="1" name="success" type="bool"/>
                 </function>
                 <function name="getFTPStatus">
                     <desc>Get current FTP connection status.</desc>
