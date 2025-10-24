@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.12">
 <meta name="author" content="SICK AG">
-<title>Documentation - CSK_Module_FTPClient 4.1.0</title>
+<title>Documentation - CSK_Module_FTPClient 4.1.1</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <style>
 /* Stylesheet for CodeRay to match GitHub theme | MIT License | http://foundation.zurb.com */
@@ -821,7 +821,7 @@ CSK_FTPClient.connectFtpClient()<br>
 <strong>3) If connection was possible, send content to FTP server</strong><br>
 E.g. via function "sendData", "sendImage"<br>
 <br>
-<strong>4) Optioanlly use Async mode</strong><br>
+<strong>4) Optionally use Async mode</strong><br>
 Per default this module sends the content via FTP and waits till the process was finished.<br>
 If it is supported by the device and firmware, it is also possible to use the asynchronous mode.<br>
 It will send the content then in its own thread, but other apps can further run in parallel.<br>
@@ -1874,6 +1874,31 @@ It is possible to register to events of other apps to put the received data to t
 <td class="tableblock halign-left valign-top"><p class="tableblock">STRING</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">?</p></td>
 <td class="tableblock halign-left valign-top"></td>
+</tr>
+</tbody>
+</table>
+<h6 id="_return_values_2">Return values</h6>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 12.5%;">
+<col style="width: 37.5%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Multiplicity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">status</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">BOOL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Status of upload success.</p></td>
 </tr>
 </tbody>
 </table>
