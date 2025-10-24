@@ -157,15 +157,20 @@ local function sendImage(img, filename)
       end
       if suc then
         _G.logger:fine(nameOfModule .. ": FTP put OK.")
+        Script.releaseObject(img)
+        return true
       else
         _G.logger:warning(nameOfModule .. ": FTP put error.")
+        Script.releaseObject(img)
+        return false
       end
     end
 
   else
     _G.logger:warning(nameOfModule .. ": No FTP connection.")
+    Script.releaseObject(img)
+    return false
   end
-  Script.releaseObject(img)
 end
 Script.serveFunction("CSK_FTPClient.sendImage", sendImage)
 ftpClient_Model.sendImage = sendImage
