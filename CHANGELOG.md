@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## Release 4.1.1
+
+### New features
+- Add return bool for sendImage function
+
+
 ## Release 4.1.0
 
 ### New features
